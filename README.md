@@ -32,7 +32,6 @@ Modify the configuration file (`conf/SmokeConfig.config`):
 Execute SmokeTest.sh.
 
 ```
-cd ./SmokeTest
 ./SmokeTest.sh
 ```
 
