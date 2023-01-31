@@ -1,7 +1,14 @@
 #!/bin/bash
-# shellcheck disable=SC1091
+if [ -n "$DEBUG" ]; then set -x; fi
 
-source ./conf/SmokeConfig.config
+if [ -z "$HDFS" ]; then
+  # shellcheck disable=SC2128
+  if [[ $BASH_SOURCE = */* ]]; then
+    cd -- "${BASH_SOURCE%/*}/" || exit
+  fi
+  # shellcheck source=/dev/null
+  source ../conf/SmokeConfig.config
+fi
 
 ozone fs -rm -r -skipTrash "ofs://${OZONE_SERVICE_ID}/${OZONE_VOLUME}"
 rm -f -r "$OZONE_TEMP_PATH"

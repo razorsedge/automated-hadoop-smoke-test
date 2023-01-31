@@ -1,5 +1,14 @@
 #!/bin/bash
-source ./conf/SmokeConfig.config
+if [ -n "$DEBUG" ]; then set -x; fi
+
+if [ -z "$HDFS" ]; then
+  # shellcheck disable=SC2128
+  if [[ $BASH_SOURCE = */* ]]; then
+    cd -- "${BASH_SOURCE%/*}/" || exit
+  fi
+  # shellcheck source=/dev/null
+  source ../conf/SmokeConfig.config
+fi
 
 echo "KAFKA_ZOOKEEPER_QUORUM: $KAFKA_ZOOKEEPER_QUORUM"
 echo "KAFKA_HOST: $KAFKA_HOST"
@@ -56,3 +65,4 @@ else
 	echo "* Kafka test Failed! *"
 	echo "**********************"
 fi
+

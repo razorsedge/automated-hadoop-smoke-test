@@ -1,5 +1,14 @@
 #!/bin/bash
-source ./conf/SmokeConfig.config
+if [ -n "$DEBUG" ]; then set -x; fi
+
+if [ -z "$HDFS" ]; then
+  # shellcheck disable=SC2128
+  if [[ $BASH_SOURCE = */* ]]; then
+    cd -- "${BASH_SOURCE%/*}/" || exit
+  fi
+  # shellcheck source=/dev/null
+  source ../conf/SmokeConfig.config
+fi
 
 echo "HBASE_TABLE_NAME: $HBASE_TABLE_NAME"
 
@@ -45,3 +54,4 @@ echo "**************************************"
 echo "* HBase test completed Successfully! *"
 echo "**************************************"
 echo " - HBase        - Passed" >> "$LOG_PATH"/SummaryReport.txt
+

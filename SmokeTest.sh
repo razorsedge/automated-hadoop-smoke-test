@@ -1,9 +1,12 @@
 #!/bin/bash
 
+if [ -n "$DEBUG" ]; then set -x; fi
+
 # shellcheck disable=SC2128
 if [[ $BASH_SOURCE = */* ]]; then
   cd -- "${BASH_SOURCE%/*}/" || exit
 fi
+# shellcheck source=/dev/null
 source conf/SmokeConfig.config
 
 timestamp=$(date '+%Y%m%d%H%M%S')

@@ -1,5 +1,14 @@
 #!/bin/bash
-source ./conf/SmokeConfig.config
+if [ -n "$DEBUG" ]; then set -x; fi
+
+if [ -z "$HDFS" ]; then
+  # shellcheck disable=SC2128
+  if [[ $BASH_SOURCE = */* ]]; then
+    cd -- "${BASH_SOURCE%/*}/" || exit
+  fi
+  # shellcheck source=/dev/null
+  source ../conf/SmokeConfig.config
+fi
 
 echo "HIVESERVER2: $HIVESERVER2"
 echo "HIVE_TABLE_NAME: $HIVE_TABLE_NAME"
@@ -50,3 +59,4 @@ else
 	echo "* Hive test Failed ! *"
 	echo "**********************"
 fi
+

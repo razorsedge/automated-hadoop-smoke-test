@@ -1,5 +1,14 @@
 #!/bin/bash
-source ./conf/SmokeConfig.config
+if [ -n "$DEBUG" ]; then set -x; fi
+
+if [ -z "$HDFS" ]; then
+  # shellcheck disable=SC2128
+  if [[ $BASH_SOURCE = */* ]]; then
+    cd -- "${BASH_SOURCE%/*}/" || exit
+  fi
+  # shellcheck source=/dev/null
+  source ../conf/SmokeConfig.config
+fi
 
 echo "PYSPARK_IN_CLUS: $PYSPARK_IN_CLUS"
 echo "PYSPARK_OUT_CLUS: $PYSPARK_OUT_CLUS"
@@ -26,3 +35,4 @@ echo "* pySpark test completed Successfully! *"
 echo "****************************************"
 
 echo " - pySpark      - Passed" >> "$LOG_PATH"/SummaryReport.txt
+

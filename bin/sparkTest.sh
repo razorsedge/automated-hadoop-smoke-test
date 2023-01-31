@@ -1,5 +1,14 @@
 #!/bin/bash
-source ./conf/SmokeConfig.config
+if [ -n "$DEBUG" ]; then set -x; fi
+
+if [ -z "$HDFS" ]; then
+  # shellcheck disable=SC2128
+  if [[ $BASH_SOURCE = */* ]]; then
+    cd -- "${BASH_SOURCE%/*}/" || exit
+  fi
+  # shellcheck source=/dev/null
+  source ../conf/SmokeConfig.config
+fi
 
 echo "SPARK_IN_CLUS: $SPARK_IN_CLUS"
 echo "SPARK_OUT_CLUS: $SPARK_OUT_CLUS"
@@ -26,3 +35,4 @@ echo "* Spark test completed Successfully! *"
 echo "**************************************"
 
 echo " - Spark        - Passed" >> "$LOG_PATH"/SummaryReport.txt
+

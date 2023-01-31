@@ -1,5 +1,14 @@
 #!/bin/bash
-source ./conf/SmokeConfig.config
+if [ -n "$DEBUG" ]; then set -x; fi
+
+if [ -z "$HDFS" ]; then
+  # shellcheck disable=SC2128
+  if [[ $BASH_SOURCE = */* ]]; then
+    cd -- "${BASH_SOURCE%/*}/" || exit
+  fi
+  # shellcheck source=/dev/null
+  source ../conf/SmokeConfig.config
+fi
 
 echo "NIFI_HOST: $NIFI_HOST"
 echo "HADOOP_CORE_SITE_PATH: $HADOOP_CORE_SITE_PATH"
@@ -118,3 +127,4 @@ echo "*  Nifi test completed Successfully!  *"
 echo "***************************************"
 
 echo " - Nifi         - Passed" >> "$LOG_PATH"/SummaryReport.txt
+

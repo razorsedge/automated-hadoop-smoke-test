@@ -1,5 +1,14 @@
 #!/bin/bash
-source ./conf/SmokeConfig.config
+if [ -n "$DEBUG" ]; then set -x; fi
+
+if [ -z "$HDFS" ]; then
+  # shellcheck disable=SC2128
+  if [[ $BASH_SOURCE = */* ]]; then
+    cd -- "${BASH_SOURCE%/*}/" || exit
+  fi
+  # shellcheck source=/dev/null
+  source ../conf/SmokeConfig.config
+fi
 
 echo "KUDU_MASTER: $KUDU_MASTER"
 echo "KUDU_SPARK2_JAR: $KUDU_SPARK2_JAR"
@@ -13,3 +22,4 @@ echo "* Kudu-Spark2 test completed Successfully! *"
 echo "********************************************"
 
 echo " - Kudu-Spark2  - Passed" >> "$LOG_PATH"/SummaryReport.txt
+

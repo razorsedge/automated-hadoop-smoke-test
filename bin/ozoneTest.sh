@@ -1,6 +1,14 @@
 #!/bin/bash
-# shellcheck disable=SC1091
-source ./conf/SmokeConfig.config
+if [ -n "$DEBUG" ]; then set -x; fi
+
+if [ -z "$HDFS" ]; then
+  # shellcheck disable=SC2128
+  if [[ $BASH_SOURCE = */* ]]; then
+    cd -- "${BASH_SOURCE%/*}/" || exit
+  fi
+  # shellcheck source=/dev/null
+  source ../conf/SmokeConfig.config
+fi
 
 echo "OZONE_SERVICE_ID: $OZONE_SERVICE_ID"
 echo "OZONE_VOLUME: $OZONE_VOLUME"
@@ -72,3 +80,4 @@ else
     echo "* Ozone test Failed ! *"
     echo "***********************"
 fi
+

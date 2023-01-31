@@ -1,7 +1,14 @@
 #!/bin/bash
-#set -x
+if [ -n "$DEBUG" ]; then set -x; fi
 
-source ./conf/SmokeConfig.config
+if [ -z "$HDFS" ]; then
+  # shellcheck disable=SC2128
+  if [[ $BASH_SOURCE = */* ]]; then
+    cd -- "${BASH_SOURCE%/*}/" || exit
+  fi
+  # shellcheck source=/dev/null
+  source ../conf/SmokeConfig.config
+fi
 
 echo "SOLR_SERVER: $SOLR_SERVER"
 #echo "SOLR_OPS: $SOLR_OPS"
@@ -50,3 +57,4 @@ echo "* Solr test completed Successfully! *"
 echo "*************************************"
 
 echo " - Solr         - Passed" >> "$LOG_PATH"/SummaryReport.txt
+
