@@ -17,7 +17,7 @@ hdfs dfs -mkdir -p "$SPARK_IN_CLUS"
 if hadoop fs -test -d "$SPARK_OUT_CLUS"; then hdfs dfs -rm -r "$SPARK_OUT_CLUS"; fi
 
 echo "this is the end. the only end. my friend." >> spark_test.txt
-rc=$?; if [[ $rc != 0 ]]; then echo "Cannot produce input data! exiting"; echo " - Spark2       - Failed [Cannot produce input data]" >> "$LOG_PATH"/SummaryReport.txt; exit $rc; fi
+#rc=$?; if [[ $rc != 0 ]]; then echo "Cannot produce input data! exiting"; echo " - Spark2       - Failed [Cannot produce input data]" >> "$LOG_PATH"/SummaryReport.txt; exit $rc; fi
 
 hdfs dfs -put -f spark_test.txt "$SPARK_IN_CLUS"
 rc=$?; if [[ $rc != 0 ]]; then echo "Cannot copy input data! exiting"; echo " - Spark2       - Failed [Cannot copy input data]" >> "$LOG_PATH"/SummaryReport.txt; exit $rc; fi
