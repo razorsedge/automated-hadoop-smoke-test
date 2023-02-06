@@ -40,7 +40,7 @@ fi
 
 if $HDFS; then
 	echo "Smoke test for HDFS"
-	bash bin/hdfsTest.sh
+	bin/hdfsTest.sh -t
 	echo "*********************************************************************************"
 fi
 
@@ -142,8 +142,7 @@ if $ZOOKEEPER ; then
 fi
 
 if $HDFS ; then
-	hdfs dfs -rm -r "$HDFS_PATH"
-	rm -f -r "$TEMP_PATH"
+	bin/hdfsTest.sh -c
 	echo "*********************************************************************************"
 fi
 
