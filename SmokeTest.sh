@@ -62,7 +62,7 @@ touch "$LOG_PATH"/"$timestamp"logs.log
 
   if $MAPREDUCE; then
     echo "Smoke test for MAPREDUCE"
-    bash bin/mrTest.sh
+    bin/mrTest.sh -t
     echo "*********************************************************************************"
   fi
 
@@ -163,8 +163,7 @@ touch "$LOG_PATH"/"$timestamp"logs.log
   fi
 
   if $MAPREDUCE; then
-    hdfs dfs -rm -r "$MAP_REDUCE_IN"/WordCountFile.txt
-    hdfs dfs -rm -r "$MAP_REDUCE_OUT"
+    bin/mrTest.sh -c
     echo "*********************************************************************************"
   fi
 

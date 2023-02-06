@@ -16,8 +16,40 @@
 #
 if [ -n "$DEBUG" ]; then set -x; fi
 #
+PATH=/usr/bin:/usr/sbin:/bin:/sbin:/usr/local/bin
+_ACTION="all"
 
-if [ -z "$HDFS" ]; then
+# Function to print the help screen.
+print_help() {
+  echo "Usage:  $1 [-t|-c]"
+  echo ""
+  echo "        $1 [-t]   # only run test"
+  echo "        $1 [-c]   # only run cleanup"
+  echo "        $1 [-h]   # help"
+  echo ""
+  echo "   ex.  $1        # run both test and cleanup"
+  exit 1
+}
+
+while getopts 'tch' _OPT; do
+  case $_OPT in
+    t)
+      _ACTION="test"
+      ;;
+    c)
+      _ACTION="clean"
+      ;;
+    h)
+      print_help "$(basename "$0")"
+      ;;
+    *)
+      print_help "$(basename "$0")"
+      ;;
+  esac
+done
+
+# main
+if [ -z "$MAPREDUCE" ]; then
   # shellcheck disable=SC2128
   if [[ $BASH_SOURCE = */* ]]; then
     cd -- "${BASH_SOURCE%/*}/" || exit
@@ -30,7 +62,7 @@ echo "MAP_REDUCE_IN: $MAP_REDUCE_IN"
 echo "MAP_REDUCE_OUT: $MAP_REDUCE_OUT"
 echo "MAP_REDUCE_JAR: $MAP_REDUCE_JAR"
 
-
+if [[ $_ACTION == "all" ]] || [[ $_ACTION == "test" ]]; then
 hdfs dfs -rm -r -f "$MAP_REDUCE_IN"
 hdfs dfs -rm -r -f "$MAP_REDUCE_OUT"
 
@@ -50,4 +82,7 @@ echo "* MapReduce test completed Successfully! *"
 echo "******************************************"
 
 echo " - MapReduce    - Passed" >> "$LOG_PATH"/SummaryReport.txt
-
+elif [[ $_ACTION == "all" ]] || [[ $_ACTION == "clean" ]]; then
+  hdfs dfs -rm -r "$MAP_REDUCE_IN"/WordCountFile.txt
+  hdfs dfs -rm -r "$MAP_REDUCE_OUT"
+fi
