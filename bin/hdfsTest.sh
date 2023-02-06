@@ -118,7 +118,8 @@ if [[ $_ACTION == "all" ]] || [[ $_ACTION == "test" ]]; then
     echo "* HDFS test Failed ! *"
     echo "**********************"
   fi
-elif [[ $_ACTION == "all" ]] || [[ $_ACTION == "clean" ]]; then
+fi
+if [[ $_ACTION == "all" ]] || [[ $_ACTION == "clean" ]]; then
   hdfs dfs -rm -r "$HDFS_PATH"
   rm -f -r "$TEMP_PATH"
 fi

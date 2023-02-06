@@ -87,6 +87,7 @@ if [[ $_ACTION == "all" ]] || [[ $_ACTION == "test" ]]; then
   echo "******************************************"
   echo "* MapReduce test completed Successfully! *"
   echo "******************************************"
-elif [[ $_ACTION == "all" ]] || [[ $_ACTION == "clean" ]]; then
+fi
+if [[ $_ACTION == "all" ]] || [[ $_ACTION == "clean" ]]; then
   hdfs dfs -rm -r "$MAP_REDUCE_IN" "$MAP_REDUCE_OUT"
 fi
