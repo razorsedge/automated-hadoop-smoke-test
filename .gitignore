@@ -3,5 +3,5 @@
 *.swp
 .DS_Store
 
-/SmokeTest/log/
-!/SmokeTest/log/.remove
+/log/
+!/log/.remove
